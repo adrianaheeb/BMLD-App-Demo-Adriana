@@ -2,8 +2,6 @@ import streamlit as st
 
 st.title("Medikamentendosierungen")
 
-st.write("Diese Seite ist eine Unterseite der Startseite.")
-
 def calculate_dose(weight, medication):
     dosages = {
         "Dafalgan": {"dose_per_kg": 15, "max_dose": 1000},
