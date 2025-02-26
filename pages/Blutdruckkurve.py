@@ -1,3 +1,7 @@
+import streamlit as st
+
+st.title("Blutdruckmessung")
+
 import datetime
 
 import matplotlib.pyplot as plt
