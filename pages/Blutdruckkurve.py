@@ -1,40 +1,46 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
+from datetime import datetime
 
-st.title("Blutdruckmessung")
+st.title("Schlaftracker")
 
-import datetime
+# Funktion zum Erfassen der Schlafdaten
+def erfasse_schlafdaten():
+    st.header("Schlaf-Tagebuch")
+    datum = st.date_input("Datum")
+    schlafenszeit = st.time_input("Schlafenszeit")
+    aufwachzeit = st.time_input("Aufwachzeit")
+    schlafqualitaet = st.slider("Schlafqualität (1-10)", 1, 10)
+    if st.button("Daten speichern"):
+        schlafdauer = (datetime.combine(datum, aufwachzeit) - datetime.combine(datum, schlafenszeit)).seconds / 3600
+        neue_daten = {"Datum": datum, "Schlafenszeit": schlafenszeit, "Aufwachzeit": aufwachzeit, "Schlafqualität": schlafqualitaet, "Schlafdauer": schlafdauer}
+        if "schlafdaten" not in st.session_state:
+            st.session_state.schlafdaten = []
+        st.session_state.schlafdaten.append(neue_daten)
+        st.success("Daten gespeichert!")
 
-import matplotlib.pyplot as plt
+# Funktion zur Analyse der Schlafdaten
+def analysiere_schlafdaten():
+    st.header("Schlafanalyse")
+    if "schlafdaten" in st.session_state and st.session_state.schlafdaten:
+        df = pd.DataFrame(st.session_state.schlafdaten)
+        st.line_chart(df.set_index("Datum")[["Schlafqualität", "Schlafdauer"]])
+        durchschnitt_qualitaet = df["Schlafqualität"].mean()
+        durchschnitt_dauer = df["Schlafdauer"].mean()
+        st.write(f"Durchschnittliche Schlafqualität: {durchschnitt_qualitaet:.2f}")
+        st.write(f"Durchschnittliche Schlafdauer: {durchschnitt_dauer:.2f} Stunden")
+        if durchschnitt_qualitaet < 5:
+            st.warning("Ihre Schlafqualität ist unterdurchschnittlich. Versuchen Sie, Ihre Schlafumgebung zu verbessern.")
+        if durchschnitt_dauer < 7:
+            st.warning("Sie schlafen weniger als die empfohlenen 7 Stunden pro Nacht. Versuchen Sie, mehr Schlaf zu bekommen.")
+    else:
+        st.info("Keine Schlafdaten vorhanden. Bitte erfassen Sie Ihre Schlafdaten.")
 
-# Beispiel-Daten
-daten = {
-    '2023-10-01': 120,
-    '2023-10-02': 125,
-    '2023-10-03': 130,
-    '2023-10-04': 128,
-    '2023-10-05': 122,
-    '2023-10-06': 126,
-    '2023-10-07': 124
-}
+# Hauptfunktion
+def main():
+    erfasse_schlafdaten()
+    analysiere_schlafdaten()
 
-# Daten sortieren
-daten = dict(sorted(daten.items()))
-
-# Datum und Blutdruckwerte extrahieren
-datum = [datetime.datetime.strptime(d, '%Y-%m-%d').date() for d in daten.keys()]
-blutdruck = list(daten.values())
-
-# Plot erstellen
-plt.figure(figsize=(10, 5))
-plt.plot(datum, blutdruck, marker='o', linestyle='-', color='b')
-plt.title('Blutdruckkurve')
-plt.xlabel('Datum')
-plt.ylabel('Blutdruck')
-plt.grid(True)
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
-
-if __name__ == "__main__":
-    plt.show()
+main()
 
