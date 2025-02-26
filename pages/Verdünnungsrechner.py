@@ -2,8 +2,6 @@ import streamlit as st
 
 st.title("Verdünnungsrechner")
 
-st.header("Verdünnungsrechner")
-
 # Eingabe der Konzentrationen und Volumina
 c1 = st.number_input("Konzentration der Stammlösung (c1) in mol/L", min_value=0.0, step=0.1)
 v1 = st.number_input("Volumen der Stammlösung (v1) in L", min_value=0.0, step=0.1)
