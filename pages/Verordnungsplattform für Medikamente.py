@@ -24,6 +24,8 @@ if erweiterte_submit_button:
     st.subheader("Erweiterte Verordnung")
     st.write(f"Patientenname: {patient_name}")
     st.write(f"Medikamentenname: {medikament_name}")
+    medikamenten_auswahl = st.selectbox("Wählen Sie ein Medikament aus der Liste", medikament_name)
+    st.write(f"Ausgewähltes Medikament: {medikamenten_auswahl}")
     st.write(f"Anzahl der Tage: {tage}")
     st.write(f"Morgendosis: {morgen_dosis}")
     st.write(f"Mittagdosis: {mittag_dosis}")
@@ -31,8 +33,15 @@ if erweiterte_submit_button:
     st.write(f"Nachtdosis: {nacht_dosis}")
     st.write(f"Einnahmeart: {einnahmeart}")
     if zeitlich_begrenzt:
-        st.write(f"Startdatum: {startdatum}")
-        st.write(f"Enddatum: {enddatum}")
+        st.subheader("Zeitlich begrenzte Verordnungen")
+        verordnungen = []
+        for i in range(1, 6):
+            with st.expander(f"Verordnung {i}"):
+                startdatum = st.date_input(f"Startdatum {i}")
+                enddatum = st.date_input(f"Enddatum {i}")
+                verordnungen.append((startdatum, enddatum))
+        for idx, (start, end) in enumerate(verordnungen):
+            st.write(f"Verordnung {idx + 1}: Startdatum: {start}, Enddatum: {end}")
     st.write(f"Anweisungen: {anweisungen}")
 
 st.subheader("Medikamentenliste")
