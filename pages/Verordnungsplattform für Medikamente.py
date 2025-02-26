@@ -2,8 +2,6 @@ import streamlit as st
 
 st.title("Verordnungsplattform für Medikamente")
 
-st.header("Verordnungsplattform für Medikamente")
-
 with st.form(key='erweiterte_medikamenten_form'):
     patient_name = st.text_input("Patientenname")
     medikament_name = st.text_input("Medikamentenname")
