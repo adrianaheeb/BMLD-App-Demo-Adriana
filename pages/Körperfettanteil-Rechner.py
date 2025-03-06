@@ -1,11 +1,11 @@
 import streamlit as st
 
 def body_fat_percentage(weight, height, age, gender, activity_level):
-    if height == 0:
-        st.error("Die Größe darf nicht null sein.")
+    if height <= 0:
+        st.error("Die Größe muss größer als null sein.")
         return None
-    if weight == 0:
-        st.error("Das Gewicht darf nicht null sein.")
+    if weight <= 0:
+        st.error("Das Gewicht muss größer als null sein.")
         return None
     bmi = weight / (height / 100) ** 2
     
@@ -39,4 +39,18 @@ if st.button("Berechnen"):
     
     if body_fat is not None:  # Sicherstellen, dass keine None zurückgegeben wird
         st.write(f"Dein geschätzter Körperfettanteil beträgt: {body_fat}%")
+    if gender == 'Männlich':
+        if body_fat < 6:
+            st.write("Der Körperfettanteil ist sehr niedrig.")
+        elif body_fat < 24:
+            st.write("Der Körperfettanteil ist im Normbereich.")
+        else:
+            st.write("Der Körperfettanteil ist hoch.")
+    else:
+        if body_fat < 16:
+            st.write("Der Körperfettanteil ist sehr niedrig.")
+        elif body_fat < 30:
+            st.write("Der Körperfettanteil ist im Normbereich.")
+        else:
+            st.write("Der Körperfettanteil ist hoch.")
 
