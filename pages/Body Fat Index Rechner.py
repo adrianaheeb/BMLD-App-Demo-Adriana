@@ -23,17 +23,15 @@ def body_fat_percentage(weight, height, age, gender, activity_level):
 
     return round(body_fat, 2)
 
-# Streamlit App
-st.title('Körperfettanteil Rechner mit Berücksichtigung des Aktivitätslevels')
+st.title('Body Fat Index Calculator')
 
-# Eingabefelder
 weight = st.number_input("Gewicht (kg)", min_value=30, max_value=200, value=70)
 height = st.number_input("Größe (cm)", min_value=100, max_value=250, value=170)
 age = st.number_input("Alter (Jahre)", min_value=10, max_value=120, value=25)
 gender = st.radio("Geschlecht", ('Männlich', 'Weiblich'))
 activity_level = st.radio("Aktivitätslevel", ['Sehr aktiv', 'Mäßig aktiv', 'Wenig aktiv'])
 
-# Berechnung und Anzeige des Ergebnisses
+
 if st.button("Berechnen"):
     body_fat = body_fat_percentage(weight, height, age, gender, activity_level)
     
