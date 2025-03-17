@@ -1,3 +1,8 @@
+# ====== Start Login Block ======
+from utils.login_manager import LoginManager
+LoginManager().go_to_login('Start.py') 
+# ====== End Login Block ======
+
 import streamlit as st
 
 def body_fat_percentage(weight, height, age, gender, activity_level):
@@ -52,3 +57,13 @@ if st.button("Berechnen"):
         else:
             st.write("Der Körperfettanteil ist hoch.")
 
+from utils.data_manager import DataManager
+DataManager().append_record(session_state_key='data_df', record_dict="result")
+result = {
+    'Gewicht': weight,
+    'Größe': height,
+    'Alter': age,
+    'Geschlecht': gender,
+    'Aktivitätslevel': activity_level,
+    'Körperfettanteil': body_fat
+}
