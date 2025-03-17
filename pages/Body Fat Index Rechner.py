@@ -58,12 +58,4 @@ if st.button("Berechnen"):
             st.write("Der Körperfettanteil ist hoch.")
 
 from utils.data_manager import DataManager
-DataManager().append_record(session_state_key='data_df', record_dict="result")
-result = {
-    'Gewicht': weight,
-    'Größe': height,
-    'Alter': age,
-    'Geschlecht': gender,
-    'Aktivitätslevel': activity_level,
-    'Körperfettanteil': body_fat
-}
+DataManager().append_record(session_state_key='data_df', record_dict=result)  # update data in session state and storage
