@@ -18,13 +18,13 @@ wrist = st.number_input("Handgelenkumfang (cm)", min_value=0.0, format="%.2f")
 hip = st.number_input("Hüftumfang (cm)", min_value=0.0, format="%.2f")
 forearm = st.number_input("Unterarmumfang (cm)", min_value=0.0, format="%.2f")
 
-if st.button("Berechnen"):
+if st.button("Berechnen", key='calculate_button'):
     body_fat_index = calculate_body_fat_index(weight, waist, wrist, hip, forearm)
     st.success(f"Ihr Body Fat Index ist: {body_fat_index:.2f}")
 
 from utils.data_manager import DataManager
 
-if st.button("Berechnen"):
+if st.button("Speichern", key='save_button'):
     body_fat_index = calculate_body_fat_index(weight, waist, wrist, hip, forearm)
     st.success(f"Ihr Body Fat Index ist: {body_fat_index:.2f}")
     result = {
