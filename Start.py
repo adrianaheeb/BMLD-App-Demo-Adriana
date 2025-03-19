@@ -1,24 +1,47 @@
+import os
 import pandas as pd
+import streamlit as st
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 
-# initialize the data manager
-data_manager = DataManager(fs_protocol='webdav', fs_root_folder="BMLD_LN 2")  # switch drive 
+# Initialize the data manager
+data_manager = DataManager(fs_protocol='webdav', fs_root_folder="BMLD_LN 2")
 
-# initialize the login manager
+# Initialize the login manager
 login_manager = LoginManager(data_manager)
-login_manager.login_register()  # open login/register page
+login_manager.login_register()  # Open login/register page
 
-# load the data from the persistent storage into the session state
-data_manager.load_user_data(
-    session_state_key='data_df', 
-    file_name='data.csv', 
-    initial_value = pd.DataFrame(), 
-    parse_dates = ['timestamp']
+# Define file name
+file_name = 'data.csv'
+
+# Check if the file exists
+file_path = data_manager.fs.get_full_path(file_name)
+if os.path.exists(file_path):
+    try:
+        data_manager.load_user_data(
+            session_state_key='data_df', 
+            file_name=file_name, 
+            initial_value=pd.DataFrame(), 
+            parse_dates=['timestamp']
+        )
+    except ValueError as e:
+        st.error(f"Fehler beim Laden der Daten: {e}")
+        data_manager.load_user_data(
+            session_state_key='data_df',
+            file_name=file_name,
+            initial_value=pd.DataFrame()
+        )
+else:
+    st.warning("Die Datei 'data.csv' wurde nicht gefunden. Eine neue Datei wird erstellt.")
+    empty_df = pd.DataFrame(columns=['timestamp'])
+    data_manager.save_user_data(empty_df, file_name)
+    data_manager.load_user_data(
+        session_state_key='data_df',
+        file_name=file_name,
+        initial_value=empty_df
     )
 
-import streamlit as st
-
+# Streamlit UI
 st.title("BFI-App")
 st.write("Diese Streamlit-App bietet eine einfache Möglichkeit, den Körperfettanteil zu berechnen, basierend auf grundlegenden persönlichen Angaben wie Grösse, Gewicht, Alter, Geschlecht sowie Aktivitätslevel. Die benutzerfreundliche Oberfläche ermöglicht es, eine erste Einschätzung der Körperzusammensetzung schnell zu erhalten.")
 st.write("🏃")
