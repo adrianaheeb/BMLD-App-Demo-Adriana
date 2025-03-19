@@ -3,6 +3,7 @@ LoginManager().go_to_login('Start.py')
 
 import streamlit as st
 from datetime import datetime
+from utils.data_manager import DataManager
 
 def calculate_body_fat_index(weight, waist, wrist, hip, forearm):
     # Simplified formula for demonstration purposes
@@ -26,11 +27,11 @@ if st.button("Berechnen", key='calculate_button'):
     jetzt = datetime.now()
     st.write(f'Berechnet am: {jetzt.strftime("%Y-%m-%d %H:%M:%S")}')
 
-from utils.data_manager import DataManager
-
 if st.button("Speichern", key='save_button'):
     body_fat_index = calculate_body_fat_index(weight, waist, wrist, hip, forearm)
     st.success(f"Ihr Body Fat Index ist: {body_fat_index:.2f}")
+    
+    jetzt = datetime.now()  # Definiere jetzt hier erneut
     result = {
         'timestamp': jetzt.strftime("%Y-%m-%d %H:%M:%S"),
         'weight': weight,
