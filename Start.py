@@ -13,9 +13,10 @@ login_manager.login_register()  # Open login/register page
 # Define file name
 file_name = 'data.csv'
 
-# Check if the file exists using data_manager methods
+# Check if the file exists using data_manager's file system
 try:
-    if data_manager.file_exists(file_name):
+    existing_files = data_manager.list_files()  # Get list of available files
+    if file_name in existing_files:
         data_manager.load_user_data(
             session_state_key='data_df', 
             file_name=file_name, 
@@ -41,4 +42,5 @@ st.write("🏃")
 
 st.write("Diese App wurde von Adriana Heeb entwickelt.")
 st.write("E-Mail Adresse: heebadr1@students.zhaw.ch")
+
 
