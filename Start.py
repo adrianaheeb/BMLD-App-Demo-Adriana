@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import streamlit as st
 from utils.data_manager import DataManager
@@ -14,32 +13,26 @@ login_manager.login_register()  # Open login/register page
 # Define file name
 file_name = 'data.csv'
 
-# Check if the file exists
-file_path = data_manager.fs.get_full_path(file_name)
-if os.path.exists(file_path):
-    try:
+# Check if the file exists using data_manager methods
+try:
+    if data_manager.file_exists(file_name):
         data_manager.load_user_data(
             session_state_key='data_df', 
             file_name=file_name, 
             initial_value=pd.DataFrame(), 
             parse_dates=['timestamp']
         )
-    except ValueError as e:
-        st.error(f"Fehler beim Laden der Daten: {e}")
+    else:
+        st.warning("Die Datei 'data.csv' wurde nicht gefunden. Eine neue Datei wird erstellt.")
+        empty_df = pd.DataFrame(columns=['timestamp'])
+        data_manager.save_user_data(empty_df, file_name)
         data_manager.load_user_data(
             session_state_key='data_df',
             file_name=file_name,
-            initial_value=pd.DataFrame()
+            initial_value=empty_df
         )
-else:
-    st.warning("Die Datei 'data.csv' wurde nicht gefunden. Eine neue Datei wird erstellt.")
-    empty_df = pd.DataFrame(columns=['timestamp'])
-    data_manager.save_user_data(empty_df, file_name)
-    data_manager.load_user_data(
-        session_state_key='data_df',
-        file_name=file_name,
-        initial_value=empty_df
-    )
+except Exception as e:
+    st.error(f"Fehler beim Zugriff auf die Datei: {e}")
 
 # Streamlit UI
 st.title("BFI-App")
@@ -48,3 +41,4 @@ st.write("🏃")
 
 st.write("Diese App wurde von Adriana Heeb entwickelt.")
 st.write("E-Mail Adresse: heebadr1@students.zhaw.ch")
+
