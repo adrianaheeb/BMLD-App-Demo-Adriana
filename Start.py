@@ -1,39 +1,23 @@
 import pandas as pd
-import streamlit as st
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
-
-# Initialize the data manager
-data_manager = DataManager(fs_protocol='webdav', fs_root_folder="BMLD_LN 2")
-
-# Initialize the login manager
+ 
+# initialize the data manager
+data_manager = DataManager(fs_protocol='webdav', fs_root_folder="BMLD_LN 2")  # switch drive
+ 
+# initialize the login manager
 login_manager = LoginManager(data_manager)
-login_manager.login_register()  # Open login/register page
-
-# Define file name
-file_name = 'data.csv'
-
-# Check if the file exists using data_manager's file system
-try:
-    existing_files = data_manager.list_files()  # Get list of available files
-    if file_name in existing_files:
-        data_manager.load_user_data(
-            session_state_key='data_df', 
-            file_name=file_name, 
-            initial_value=pd.DataFrame(), 
-            parse_dates=['timestamp']
-        )
-    else:
-        st.warning("Die Datei 'data.csv' wurde nicht gefunden. Eine neue Datei wird erstellt.")
-        empty_df = pd.DataFrame(columns=['timestamp'])
-        data_manager.save_user_data(empty_df, file_name)
-        data_manager.load_user_data(
-            session_state_key='data_df',
-            file_name=file_name,
-            initial_value=empty_df
-        )
-except Exception as e:
-    st.error(f"Fehler beim Zugriff auf die Datei: {e}")
+login_manager.login_register()  # open login/register page
+ 
+# load the data from the persistent storage into the session state
+data_manager.load_user_data(
+    session_state_key='data_df',
+    file_name='data.csv',
+    initial_value = pd.DataFrame(),
+    parse_dates = ['timestamp']
+    )
+ 
+import streamlit as st
 
 # Streamlit UI
 st.title("BFI-App")
