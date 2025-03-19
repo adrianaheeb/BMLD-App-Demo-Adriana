@@ -1,5 +1,5 @@
 from utils.login_manager import LoginManager
-LoginManager().go_to_login('Start.py') 
+LoginManager().go_to_login('Start.py')  # go to login page if not logged in
 
 import streamlit as st
 from datetime import datetime
@@ -19,6 +19,8 @@ waist = st.number_input("Taillenumfang (cm)", min_value=0.0, format="%.2f")
 wrist = st.number_input("Handgelenkumfang (cm)", min_value=0.0, format="%.2f")
 hip = st.number_input("Hüftumfang (cm)", min_value=0.0, format="%.2f")
 forearm = st.number_input("Unterarmumfang (cm)", min_value=0.0, format="%.2f")
+height = st.number_input("Größe (cm)", min_value=0.0, format="%.2f")
+bmi = weight / ((height / 100) ** 2) if height > 0 else 0
 
 if st.button("Berechnen", key='calculate_button'):
     body_fat_index = calculate_body_fat_index(weight, waist, wrist, hip, forearm)
@@ -39,6 +41,8 @@ if st.button("Speichern", key='save_button'):
         'wrist': wrist,
         'hip': hip,
         'forearm': forearm,
-        'body_fat_index': body_fat_index
+        'body_fat_index': body_fat_index,
+        'height': height,
+        'bmi': bmi
     }
     DataManager().append_record(session_state_key='data_df', record_dict=result)  # update data in session state and storage
