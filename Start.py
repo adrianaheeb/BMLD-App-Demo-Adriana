@@ -20,13 +20,10 @@ data_manager.load_user_data(
 import streamlit as st
 
 # Streamlit UI
-st.title("BFI-App")
-st.write("Diese Streamlit-App bietet eine einfache Möglichkeit, den Körperfettanteil zu berechnen, basierend auf grundlegenden persönlichen Angaben wie Grösse, Gewicht, Alter, Geschlecht sowie Aktivitätslevel. Die benutzerfreundliche Oberfläche ermöglicht es, eine erste Einschätzung der Körperzusammensetzung schnell zu erhalten.")
+st.title("BodyFatIndex-App")
+st.write("Diese Streamlit-App bietet eine klare und benutzerfreundliche Oberfläche zur präzisen Berechnung deines Body Fat Index (BFI). Anhand von Eingaben zu Gewicht, Grösse sowie Taillenumfang, Handgelenkumfang, Hüftumfang und Unterarmumfang erhältst du eine detaillierte Auswertung deiner Körperzusammensetzung. Die strukturierte Darstellung der Ergebnisse unterstützt dich dabei, deinen aktuellen Fitnesszustand besser zu verstehen und gezielt an deinen Gesundheitszielen zu arbeiten.")
 
-st.write("🏃")
-st.write("💪")
-st.write("🍎")
-st.write("📊")
+st.write("🏃💪🍎📊🏋️‍♀️🥗")
 
 st.write("Diese App wurde von Adriana Heeb entwickelt.")
 st.write("E-Mail Adresse: heebadr1@students.zhaw.ch")
