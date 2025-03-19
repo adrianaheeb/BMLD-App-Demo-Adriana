@@ -2,6 +2,7 @@ from utils.login_manager import LoginManager
 LoginManager().go_to_login('Start.py') 
 
 import streamlit as st
+from datetime import datetime
 
 def calculate_body_fat_index(weight, waist, wrist, hip, forearm):
     # Simplified formula for demonstration purposes
