@@ -6,6 +6,7 @@ LoginManager().go_to_login('Start.py')
 # ------------------------------------------------------------
 # === BFI Grafik ===
 import streamlit as st
+import pandas as pd  # Pandas importieren
 
 st.title('BFI Verlauf')
 
