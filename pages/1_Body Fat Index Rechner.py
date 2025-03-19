@@ -2,6 +2,7 @@ from utils.login_manager import LoginManager
 LoginManager().go_to_login('Start.py') 
 
 import streamlit as st
+from datetime import datetime
 from utils.data_manager import DataManager
 
 def calculate_body_fat(weight, height, age, gender, activity_level):
@@ -57,9 +58,8 @@ activity_level = st.radio("Aktivitätslevel", ['Sehr aktiv', 'Mäßig aktiv', 'W
 if st.button("Berechnen"):
     result = calculate_body_fat(weight, height, age, gender, activity_level)
     
-    if "error" in result:
-        st.error(result["error"])
-    else:
-        st.write(f"Dein geschätzter Körperfettanteil beträgt: {result['Körperfettanteil (%)']}%")
-        st.write(f"Kategorie: {result['Kategorie']}")
-        DataManager().append_record(session_state_key='data_df', record_dict=result)
+st.write(f"Dein geschätzter Körperfettanteil beträgt: {result['Körperfettanteil (%)']}%")
+st.write(f"Kategorie: {result['Kategorie']}")
+
+
+DataManager().append_record(session_state_key='data_df', record_dict=result)
