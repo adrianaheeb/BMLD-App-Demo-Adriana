@@ -22,12 +22,16 @@ if st.button("Berechnen", key='calculate_button'):
     body_fat_index = calculate_body_fat_index(weight, waist, wrist, hip, forearm)
     st.success(f"Ihr Body Fat Index ist: {body_fat_index:.2f}")
 
+    jetzt = datetime.now()
+    st.write(f'Berechnet am: {jetzt.strftime("%Y-%m-%d %H:%M:%S")}')
+
 from utils.data_manager import DataManager
 
 if st.button("Speichern", key='save_button'):
     body_fat_index = calculate_body_fat_index(weight, waist, wrist, hip, forearm)
     st.success(f"Ihr Body Fat Index ist: {body_fat_index:.2f}")
     result = {
+        'timestamp': jetzt.strftime("%Y-%m-%d %H:%M:%S"),
         'weight': weight,
         'waist': waist,
         'wrist': wrist,
